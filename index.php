@@ -54,7 +54,6 @@
 
             }
        ?>
-        <li><a href="#"><i class="material-icons">shopping_cart</i></a></li>
         <li><a href="#"><i class="material-icons">exit_to_app</i></a></li>
       </ul>
       <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
