@@ -21,7 +21,7 @@
 <body>
   <nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS</a>
+      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS v3</a>
       <ul class="right hide-on-med-and-down">
         
        <?php
