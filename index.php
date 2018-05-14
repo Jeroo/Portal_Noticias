@@ -9,10 +9,14 @@
   <title>NOTICIAS</title>
   <link rel="shortcut icon" type="image/png" href="recursos/img/logonoticias.PNG"/>
   <!-- CSS  -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="./recursos/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="./recursos/css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>  
+  <link href="./recursos/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  <link href="./recursos/css/animate.css" rel="stylesheet" type="text/css"/>
+
   <link href="./recursos/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="../recursos/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+  
 </head>
 <body>
   <nav class="red lighten-1" role="navigation">
@@ -62,20 +66,96 @@
 
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
-      <br><br>
-     
-      <h1 class="header center orange-text"> <img src="./recursos/img/logonoticias.PNG" alt=""/></h1>
+      <h1 class="header center orange-text animated bounceInDown"> 
+        <img src="./recursos/img/logonoticias.PNG" alt=""/></h1>
       <div class="row center">
         <h5 class="header col s12 light hide">Portal de NOTICIAS</h5>
       </div>
       <div class="row center">
-        
-      </div>
-      <div class="row center">
-        
+
+ <section class="noticias">
+         <section class="slider_noticias">
+
+                  <div class="banner">
+                    <img src="recursos/img/9.jpg" alt="" class="slide">
+                    <img src="recursos/img/10.jpg" alt="" class="slide">
+                    <img src="recursos/img/11.jpg" alt="" class="slide">
+                  </div>
+                  <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
+                  <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
+         </section>
+  </section>
+        <div class="contenedor animated bounceInLeft">
+          <div class="contenedor_tarjetas">
+            <a href="#">
+                <figure>
+               
+                  <img src="recursos/img/8.jpg" class="frontal" alt="">
+                  <figcaption class="trasera">
+                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                  </figcaption>
+                </figure>
+              </a>              
+         </div>
+         <div class="contenedor_tarjetas">
+            <a href="#">
+                <figure>
+                  <img src="recursos/img/8.jpg" class="frontal" alt="">
+                  <figcaption class="trasera">
+                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                  </figcaption>
+                </figure>
+              </a>
+              
+         </div>
+         <div class="contenedor_tarjetas">
+            <a href="#">
+                <figure>
+                  <img src="recursos/img/8.jpg" class="frontal" alt="">
+                  <figcaption class="trasera">
+                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                  </figcaption>
+                </figure>
+              </a>
+              
+         </div>
+         <div class="contenedor_tarjetas">
+            <a href="#">
+                <figure>
+                  <img src="recursos/img/8.jpg" class="frontal" alt="">
+                  <figcaption class="trasera">
+                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                  </figcaption>
+                </figure>
+              </a>
+              
+         </div>
+         <div class="contenedor_tarjetas">
+            <a href="#">
+                <figure>
+                  <img src="recursos/img/8.jpg" class="frontal" alt="">
+                  <figcaption class="trasera">
+                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
+                    <hr>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                  </figcaption>
+                </figure>
+              </a>
+              
+         </div>
+         
+        </div>
       </div>
       
-      <div class="row center">
+      <div class="row center hide">
          <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
          <a href="./vistas/noticias.php" id="download-button" class="btn-large waves-effect waves-light orange">
         
@@ -98,46 +178,9 @@
        ?>
          
       </div>
-      <br>
-      <br>
+    
 
     </div>
-  </div>
-<div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block hide">
-            <h2 class="center light-blue-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center"></h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block hide">
-            <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block hide">
-            <h2 class="center light-blue-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <br><br>
   </div>
 
  <footer class="page-footer red lighten-1 footer">
