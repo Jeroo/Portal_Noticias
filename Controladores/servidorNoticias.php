@@ -38,6 +38,16 @@ class BaseDatos {
 		$stmt->bind_param('s', $noticia);
         return $stmt->execute();
     }
+
+     /**
+     * Añadir una noticia
+     */
+    public function agregarNoticia(string $noticia):bool {
+		$query = "INSERT INTO noticias (texto) VALUES(?)";
+        $stmt = $this->conn->prepare($query);
+		$stmt->bind_param('s', $noticia);
+        return $stmt->execute();
+    }
 	
     /**
      * Refresco de la noticia
@@ -78,6 +88,35 @@ class BaseDatos {
 		$stmt->bind_param('sss', $nombre, $texto, date ("Y-m-d H:i:s", time()));
         return $stmt->execute();
     }
+
+     /**
+     * Agregar imagenes
+     */
+
+     //https://manuais.iessanclemente.net/index.php/Almacenamiento_de_im%C3%A1genes_en_bases_de_datos_con_PHP     
+    public function agregarImagen(string $data,string $tipo,int $noticiaId):bool {     
+       // Insertamos en la base de datos.
+        $query = "INSERT INTO noticiasimagenes(imagen, tipo_imagen, noticiaId) VALUES(?, ?, ?)";		
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('sss', $data, $tipo, $noticiaId);
+        return $stmt->execute();
+    }
+
+    public function obtenerImagen(int $noticiasimagenesId):array {     
+       // Consulta de búsqueda de la imagen.
+       $mensajes = [];
+       $sql="SELECT * FROM noticiasimagenes WHERE noticiasimagenesId=$noticiasimagenesId";
+       $query = $this->conn->query($sql);
+
+        while ($row = $query->fetch_assoc()) {
+
+            array_push($mensajes, $row);     
+        }
+
+      return $mensajes;
+
+     }
+
 	
 }
 
@@ -124,5 +163,65 @@ if (isset($_GET['action']) && $_GET['action'] === "refrescaNoticia") {
 if (isset($_GET['action']) && $_GET['action'] === "refrescaComentarios") {	
 	print json_encode($db->refrescaComentarios());
 }
+
+
+/*if (1 > 0)
+{
+    $datos = $db->obtenerImagen(3);
+    $imagen = $datos[0]['imagen']; // Datos binarios de la imagen.
+    $tipo = $datos[0]['tipo_imagen'];  // Mime Type de la imagen.
+    // Mandamos las cabeceras al navegador indicando el tipo de datos que vamos a enviar.
+    header("Content-type: $tipo");
+    // A continuación enviamos el contenido binario de la imagen.
+    echo $imagen;
+}*/
+
+/* Refresco de los comentarios. */
+
+//if (isset($_GET['action']) && $_GET['action'] === "cargarImagen") {
+	// Comprobamos si ha ocurrido un error.
+/*if (!isset($_FILES["imagen"]) || $_FILES["imagen"]["error"] > 0)
+{
+    echo "Ha ocurrido un error.";
+}
+else
+{
+    // Verificamos si el tipo de archivo es un tipo de imagen permitido.
+    // y que el tamaño del archivo no exceda los 16MB
+    $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png");
+    $limite_kb = 16384;
+
+    if (in_array($_FILES['imagen']['type'], $permitidos) && $_FILES['imagen']['size'] <= $limite_kb * 1024)
+    {
+
+        // Archivo temporal
+        $imagen_temporal = $_FILES['imagen']['tmp_name'];
+
+        // Tipo de archivo
+        $tipo = $_FILES['imagen']['type'];
+
+        // Leemos el contenido del archivo temporal en binario.
+        $fp = fopen($imagen_temporal, 'r+b');
+        $data = fread($fp, filesize($imagen_temporal));
+        fclose($fp);
+
+        if ($db->agregarImagen($data,$tipo,2))
+        {
+            echo "El archivo ha sido copiado exitosamente.";
+        }
+        else
+        {
+            echo "Ocurrió algun error al copiar el archivo.";
+        }
+    }
+    else
+    {
+        echo "Formato de archivo no permitido o excede el tamaño límite de $limite_kb Kbytes.";
+    }
+ }*/
+
+
+
+
 
 ?>

@@ -1,5 +1,18 @@
-<?php   
-    session_start();    
+<?php
+
+//require_once './Controladores/servidorNoticias.php';
+require("./Controladores/servidorNoticias.php");
+/*if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}*/
+
+/*if (!isset($_SESSION['login_user'])) { //not logged in
+
+    //redirect to homepage
+    header("Location: ../index.php");
+    die();
+
+}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -73,18 +86,26 @@
       </div>
       <div class="row center">
 
- <section class="noticias">
-         <section class="slider_noticias">
+        <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
+            <label for="imagen">Imagen:</label>
+            <input type="file" name="imagen" id="imagen" />
+            <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
+        </form>
 
-                  <div class="banner">
-                    <img src="recursos/img/9.jpg" alt="" class="slide">
-                    <img src="recursos/img/10.jpg" alt="" class="slide">
-                    <img src="recursos/img/11.jpg" alt="" class="slide">
-                  </div>
-                  <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
-                  <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
-         </section>
-  </section>
+        <img src="./Controladores/servidorNoticias.php?id=2"/>
+
+        <section class="noticias hide">
+                <section class="slider_noticias">
+
+                          <div class="banner">
+                            <img src="recursos/img/9.jpg" alt="" class="slide">
+                            <img src="recursos/img/10.jpg" alt="" class="slide">
+                            <img src="recursos/img/11.jpg" alt="" class="slide">
+                          </div>
+                          <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
+                          <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
+                </section>
+          </section>
         <div class="contenedor animated bounceInLeft">
           <div class="contenedor_tarjetas">
             <a href="#">
@@ -94,7 +115,7 @@
                   <figcaption class="trasera">
                     <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
                     <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
+                    <p class="b">Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
                   </figcaption>
                 </figure>
               </a>              
