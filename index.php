@@ -6,7 +6,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>NOTICIAS</title>
+  <title>NOTICIAS v2</title>
   <link rel="shortcut icon" type="image/png" href="recursos/img/logonoticias.PNG"/>
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto" rel="stylesheet">
