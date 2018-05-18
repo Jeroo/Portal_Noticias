@@ -34,7 +34,7 @@ require("./Controladores/servidorNoticias.php");
 <body>
   <nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS v3</a>
+      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS</a>
       <ul class="right hide-on-med-and-down">
         
        <?php
@@ -86,13 +86,13 @@ require("./Controladores/servidorNoticias.php");
       </div>
       <div class="row center">
 
-        <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
+        <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data" class="hide">
             <label for="imagen">Imagen:</label>
             <input type="file" name="imagen" id="imagen" />
             <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
         </form>
 
-        <img src="./Controladores/servidorNoticias.php?id=2"/>
+        <img src="./Controladores/servidorNoticias.php?id=2" class="hide" />
 
         <section class="noticias hide">
                 <section class="slider_noticias">
@@ -106,72 +106,7 @@ require("./Controladores/servidorNoticias.php");
                           <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
                 </section>
           </section>
-        <div class="contenedor animated bounceInLeft">
-          <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-               
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p class="b">Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
+        <div class="contenedor animated bounceInLeft" id="contenedor">
          
         </div>
       </div>
@@ -235,6 +170,7 @@ require("./Controladores/servidorNoticias.php");
   <script src="./recursos/js/jquery-2.1.1.min.js"></script>
   <script src="./recursos/js/materialize.js"></script>
   <script src="./recursos/js/init.js"></script>
+  <script src="./recursos/js/appScript.js"></script>
 
   </body>
 </html>

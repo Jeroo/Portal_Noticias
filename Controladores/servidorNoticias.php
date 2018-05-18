@@ -6,6 +6,10 @@ define('USER', 'user_ejercicio');
 define('PASS', 'pass_ejercicio');
 define('DBASE', 'db_ejercicio');
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 class BaseDatos {
     
     private $conn;
@@ -58,7 +62,9 @@ class BaseDatos {
         $query = $this->conn->query($sql);
         while ($row = $query->fetch_assoc()) {
             array_push($mensajes, $row);
+
         }
+        
         return $mensajes;
     }
 
@@ -102,10 +108,10 @@ class BaseDatos {
         return $stmt->execute();
     }
 
-    public function obtenerImagen(int $noticiasimagenesId):array {     
+    public function obtenerImagen(int $noticiaId):array {     
        // Consulta de búsqueda de la imagen.
        $mensajes = [];
-       $sql="SELECT * FROM noticiasimagenes WHERE noticiasimagenesId=$noticiasimagenesId";
+       $sql="SELECT * FROM noticiasimagenes WHERE noticiaId=$noticiaId";
        $query = $this->conn->query($sql);
 
         while ($row = $query->fetch_assoc()) {
@@ -125,7 +131,22 @@ $db = new BaseDatos();
 
 /* Autenticación. */
 if (isset($_POST['action']) && $_POST['action'] === "autenticar") {
-	print $db->autenticar($_POST['usuario'], $_POST['password']);
+
+    if($db->autenticar($_POST['usuario'], $_POST['password']) == "true"){
+
+        $_SESSION['login_user'] = $usuario;
+         
+        header("location: ../vistas/administracion.php");
+
+        print $db->autenticar($_POST['usuario'], $_POST['password']);
+
+    }else {
+
+        echo("<script>javascript:alert('usuario o contraseña incorrectos');window.location='../vistas/login.php';</script>");
+       
+     }
+   
+    
 }
 
 
@@ -155,13 +176,33 @@ if (isset($_POST['action']) && $_POST['action'] === "nuevoComentario") {
 
 /* Refresco de la noticia. */
 if (isset($_GET['action']) && $_GET['action'] === "refrescaNoticia") {	
-	print json_encode($db->refrescaNoticia());
+    print json_encode($db->refrescaNoticia());
+    exit();
 }
 
 
 /* Refresco de los comentarios. */
 if (isset($_GET['action']) && $_GET['action'] === "refrescaComentarios") {	
-	print json_encode($db->refrescaComentarios());
+    print json_encode($db->refrescaComentarios());
+    exit();
+}
+
+/* Obtener imagen. */
+if (isset($_GET['action']) && $_GET['action'] === "obtenerimagen") {
+    $datos =$db->obtenerImagen($_GET['noticiaId']);
+    $imagen =$datos[0]['imagen']; // Datos binarios de la imagen.
+
+  // 
+  
+//  print $imagen;
+   //echo $imagen;
+    print json_encode(base64_encode($imagen));
+}
+
+/* vamos a una noticia en particular*/
+if (isset($_GET['action']) && $_GET['action'] === "noticiaparticular") {	
+    echo "yendo a la noticia... ID: ".$_GET['id'];
+    //exit();
 }
 
 
