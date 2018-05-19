@@ -92,7 +92,7 @@ require("./Controladores/servidorNoticias.php");
             <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
         </form>
 
-        <img src="./Controladores/servidorNoticias.php?id=2"/>
+        <img src="./Controladores/servidorNoticias.php?id=2" class="hide" />
 
         <section class="noticias hide">
                 <section class="slider_noticias">
@@ -106,80 +106,7 @@ require("./Controladores/servidorNoticias.php");
                           <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
                 </section>
           </section-->
-        <div class="contenedor animated bounceInLeft">
-        <?php 
-
-            // print_r($_SESSION['carrito']);
-            for($i = 0 ; $i < count($_SESSION['carrito']) ; $i++) {
-               
-                  
-                foreach($_SESSION["carrito"][$i] as $value){
-                    
-                    echo '<td> <img class="responsive-img" src="../resources/img/logo.PNG"  style="width: 250px;" alt=""/></td>';
-                    echo '<td>'.$value.'</td>';
-                    
-                    
-                }
-                
-                echo '</tr>'; 
-                
-                
-              } 
-                         
-           ?>
-  
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
-         <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>
-              
-         </div>
+        <div class="contenedor animated bounceInLeft" id="contenedor">
          
         </div>
       </div>
@@ -243,6 +170,7 @@ require("./Controladores/servidorNoticias.php");
   <script src="./recursos/js/jquery-2.1.1.min.js"></script>
   <script src="./recursos/js/materialize.js"></script>
   <script src="./recursos/js/init.js"></script>
+  <script src="./recursos/js/appScript.js"></script>
 
   </body>
 </html>

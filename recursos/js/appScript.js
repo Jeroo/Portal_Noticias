@@ -1,14 +1,69 @@
 $(document).ready(function() {
+
+
+    /**
+     * 
+     * Inicializar noticias
+     */
+    var url = "./Controladores/servidorNoticias.php";
+     
+  
+
+    $.ajax({
+        // En data puedes utilizar un objeto JSON, un array o un query string
+        data: {"action" : "refrescaNoticia"},
+        //Cambiar a type: POST si necesario
+        type: "GET",
+        // Formato de datos que se espera en la respuesta
+        dataType: "json",
+        // URL a la que se enviará la solicitud Ajax
+        url: url,
+    })
+     .done(function( data, textStatus, jqXHR ) {
+        var tarjeta = "";       
+       
+
+        $.each(data, function(i, n){
+           console.log("vaina: "+n.titulo)
+           obtenerImagenPorNoticiaId(n.noticiaId,url);               
+            
+            tarjeta += 
+            '<div class="contenedor_tarjetas">'
+            +'<a href="'+url+"?action=noticiaparticular&id="+n.noticiaId+'">'
+            +'  <figure>   '      
+             +'   <img src="data:image/png;charset=utf8;base64, '+ localStorage.getItem("encodingImagen"+n.noticiaId)+'" class="frontal" />'
+            +'      <figcaption class="trasera">'
+            +'        <h4 class="titulo">'+n.titulo+'</h4>'
+            +'        <hr>'
+            +'       <p class="b">'+n.texto+'</p>'
+            +'      </figcaption>'
+            +'    </figure>'
+            +'  </a>         '     
+            +' </div>'
+         
+          
+          // console.log( "La solicitud fue exitosa2: " +  localStorage.getItem("encodingImagen"));
+          });
+        
+          $("#contenedor").append(tarjeta);
+          localStorage.clear();
+        
+     })
+     .fail(function( jqXHR, textStatus, errorThrown ) {
+         if ( console && console.log ) {
+             console.log( "La solicitud a fallado 2: " +  textStatus);
+         }
+    });
     
-  $('#listaLibros').DataTable({
+  /*$('#listaLibros').DataTable({
         "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
         "language": {
             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
         }
         /*,
-        "sDom": '<"bottom"flp>rt<"top"i><"clear">'*/
+        "sDom": '<"bottom"flp>rt<"top"i><"clear">'
     },
-    );
+);*/
     
     $('select').material_select();
     
@@ -103,9 +158,25 @@ $("#").submit(function(event){
         $inputs.prop("disabled", false);
     });
 
-});
-     
+});    
     
      
     
 } );
+
+
+function obtenerImagenPorNoticiaId(noticiaId,url) {    
+   
+    console.log("noticiaId: "+noticiaId)
+   
+    $.getJSON(url,{"action" : "obtenerimagen", "noticiaId": noticiaId}, function(data) {
+          // localStorage.clear();
+           // Store
+           localStorage.setItem("encodingImagen"+noticiaId, data);
+           console.log(data)
+       
+      });
+      
+     return false;
+}
+
