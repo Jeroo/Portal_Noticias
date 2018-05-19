@@ -34,7 +34,7 @@ require("./Controladores/servidorNoticias.php");
 <body>
   <nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper container">
-      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS v3</a>
+      <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS</a>
       <ul class="right hide-on-med-and-down">
         
        <?php
@@ -86,7 +86,7 @@ require("./Controladores/servidorNoticias.php");
       </div>
       <div class="row center">
 
-        <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
+        <!--form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
             <label for="imagen">Imagen:</label>
             <input type="file" name="imagen" id="imagen" />
             <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
@@ -105,21 +105,29 @@ require("./Controladores/servidorNoticias.php");
                           <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
                           <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
                 </section>
-          </section>
+          </section-->
         <div class="contenedor animated bounceInLeft">
-          <div class="contenedor_tarjetas">
-            <a href="#">
-                <figure>
+        <?php 
+
+            // print_r($_SESSION['carrito']);
+            for($i = 0 ; $i < count($_SESSION['carrito']) ; $i++) {
                
-                  <img src="recursos/img/8.jpg" class="frontal" alt="">
-                  <figcaption class="trasera">
-                    <h4 class="titulo"  >Lorem ipsum dolor sit amet</h4>
-                    <hr>
-                    <p class="b">Lorem ipsum dolor sit amet consectetur adipisicing eli natus minus ipsum, numquam accusamus exercitationem saepe labore deleniti consectetur dignissimos obcaecati!</p>
-                  </figcaption>
-                </figure>
-              </a>              
-         </div>
+                  
+                foreach($_SESSION["carrito"][$i] as $value){
+                    
+                    echo '<td> <img class="responsive-img" src="../resources/img/logo.PNG"  style="width: 250px;" alt=""/></td>';
+                    echo '<td>'.$value.'</td>';
+                    
+                    
+                }
+                
+                echo '</tr>'; 
+                
+                
+              } 
+                         
+           ?>
+  
          <div class="contenedor_tarjetas">
             <a href="#">
                 <figure>
