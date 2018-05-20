@@ -186,6 +186,13 @@ p.b {
   width: auto;
 }
 
+.btn-floating {
+  position: fixed;
+  float: right;
+  height: 70px;
+  z-index: 99;
+}
+
 /* Custom styles */
 
 .parent {

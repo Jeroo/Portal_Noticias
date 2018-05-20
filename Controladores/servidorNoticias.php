@@ -46,11 +46,13 @@ class BaseDatos {
      /**
      * Añadir una noticia
      */
-    public function agregarNoticia(string $noticia):bool {
-		$query = "INSERT INTO noticias (texto) VALUES(?)";
+    public function agregarNoticia(string $noticia,string $titulo):int {       
+		$query = "INSERT INTO noticias (texto,titulo) VALUES(?, ?)";
         $stmt = $this->conn->prepare($query);
-		$stmt->bind_param('s', $noticia);
-        return $stmt->execute();
+        $stmt->bind_param('ss', $noticia, $titulo);
+        $stmt->execute();
+        $LAST_ID = $this->conn->insert_id; 
+        return $LAST_ID;
     }
 	
     /**
@@ -99,7 +101,7 @@ class BaseDatos {
      * Agregar imagenes
      */
 
-     //https://manuais.iessanclemente.net/index.php/Almacenamiento_de_im%C3%A1genes_en_bases_de_datos_con_PHP     
+    //https://manuais.iessanclemente.net/index.php/Almacenamiento_de_im%C3%A1genes_en_bases_de_datos_con_PHP     
     public function agregarImagen(string $data,string $tipo,int $noticiaId):bool {     
        // Insertamos en la base de datos.
         $query = "INSERT INTO noticiasimagenes(imagen, tipo_imagen, noticiaId) VALUES(?, ?, ?)";		
@@ -134,20 +136,61 @@ if (isset($_POST['action']) && $_POST['action'] === "autenticar") {
 
     if($db->autenticar($_POST['usuario'], $_POST['password']) == "true"){
 
-        $_SESSION['login_user'] = $usuario;
+         $_SESSION['login_user'] = $_POST['usuario'];
          
-        header("location: ../vistas/administracion.php");
+        //header("location: ../vistas/administracion.php");
 
         print $db->autenticar($_POST['usuario'], $_POST['password']);
 
     }else {
-
-        echo("<script>javascript:alert('usuario o contraseña incorrectos');window.location='../vistas/login.php';</script>");
+        print $db->autenticar($_POST['usuario'], $_POST['password']);
+       // echo("<script>javascript:alert('usuario o contraseña incorrectos');window.location='../vistas/login.php';</script>");
        
      }
    
     
 }
+
+/* Agregar una noticia. */
+if (isset($_POST['action']) && $_POST['action'] === "agregarNoticia") {
+
+     $idNoticia = $db->agregarNoticia($_POST['texto'],$_POST['titulo']);
+
+    if ($idNoticia > 0) {
+
+        $_SESSION['idNoticia'] = $idNoticia;
+        print $idNoticia;
+
+    } else {
+        
+        http_response_code(400);
+        die("{ 'status': 'error' }");
+    }
+}
+
+
+/* Salir de administración */
+if (isset($_GET['action']) && $_GET['action'] === "logout") {
+
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
+    unset($_SESSION["login_user"]);  
+    session_unset();
+    session_destroy();
+    ob_start();
+    header("location: ../index.php");
+    ob_end_flush(); 
+    include './inidex.php';
+    //include 'home.php';
+    exit();
+}
+
+
+
+
+
 
 
 /* Modificación de la noticia. */
@@ -219,9 +262,9 @@ if (isset($_GET['action']) && $_GET['action'] === "noticiaparticular") {
 
 /* Refresco de los comentarios. */
 
-//if (isset($_GET['action']) && $_GET['action'] === "cargarImagen") {
+if (isset($_POST['action']) && $_POST['action'] === "cargarImagen") {
 	// Comprobamos si ha ocurrido un error.
-/*if (!isset($_FILES["imagen"]) || $_FILES["imagen"]["error"] > 0)
+if (!isset($_FILES["imagen"]) || $_FILES["imagen"]["error"] > 0)
 {
     echo "Ha ocurrido un error.";
 }
@@ -248,18 +291,19 @@ else
 
         if ($db->agregarImagen($data,$tipo,2))
         {
-            echo "El archivo ha sido copiado exitosamente.";
+            print "El archivo ha sido copiado exitosamente.";
         }
         else
         {
-            echo "Ocurrió algun error al copiar el archivo.";
+            print "Ocurrió algun error al copiar el archivo.";
         }
     }
     else
     {
-        echo "Formato de archivo no permitido o excede el tamaño límite de $limite_kb Kbytes.";
+        print "Formato de archivo no permitido o excede el tamaño límite de $limite_kb Kbytes.";
     }
- }*/
+  }
+}
 
 
 

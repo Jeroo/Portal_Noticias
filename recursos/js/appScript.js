@@ -1,6 +1,5 @@
 $(document).ready(function() {
-
-
+    $('.modal').modal();
     /**
      * 
      * Inicializar noticias
@@ -30,6 +29,7 @@ $(document).ready(function() {
             tarjeta += 
             '<div class="contenedor_tarjetas">'
             +'<a href="'+url+"?action=noticiaparticular&id="+n.noticiaId+'">'
+            +'      <h4 class="titulo">'+n.titulo+'</h4>'     
             +'  <figure>   '      
              +'   <img src="data:image/png;charset=utf8;base64, '+ localStorage.getItem("encodingImagen"+n.noticiaId)+'" class="frontal" />'
             +'      <figcaption class="trasera">'
@@ -83,6 +83,111 @@ $(document).ready(function() {
      });
      
      
+     //bntGuardarNoticia
+
+     $('#bntGuardarNoticia').click(function(e){
+      
+        e.preventDefault();
+
+        var texto = $('#texto');
+        var titulo = $('#titulo');
+
+        if(texto.val() != "" && titulo.val() != ""){
+
+            $.ajax({
+                // En data puedes utilizar un objeto JSON, un array o un query string
+                data: {"action" : "agregarNoticia", "texto": texto.val(), "titulo": titulo.val()},
+                //Cambiar a type: POST si necesario
+                type: "POST",
+                // Formato de datos que se espera en la respuesta
+               // dataType: "json",
+                // URL a la que se enviará la solicitud Ajax
+                url: url,
+            })
+             .done(function(data, textStatus, jqXHR ) {
+                              
+              
+
+              if(data > 0){
+  
+                $('body').append("<input id='idNoticia' name='idNoticia' type='hidden' value='"+data+"'>")
+
+                alert("Noticia Agregada correctamente");
+
+              }else{
+
+                alert("Hubo un error al agregar la noticia. favor contacte al administracion del sistema");
+              }
+                
+             })
+             .fail(function(jqXHR, textStatus, errorThrown ) {
+                 if (console && console.log ) {
+                     console.log( "La solicitud a fallado: " +  textStatus);
+                 }
+            });
+
+
+        }else{
+
+
+            alert("debe completar los campos antes de guardar!");
+        }
+
+       
+   
+    });  
+
+    $('#btn_login').click(function(e){
+      
+        e.preventDefault();
+
+        var usuario = $('#usuario');
+        var password = $('#password');
+
+        if(usuario.val() != "" && password.val() != ""){
+
+            $.ajax({
+                // En data puedes utilizar un objeto JSON, un array o un query string
+                data: {"action" : "autenticar", "password": password.val(), "usuario": usuario.val()},
+                //Cambiar a type: POST si necesario
+                type: "POST",
+                // Formato de datos que se espera en la respuesta
+               // dataType: "json",
+                // URL a la que se enviará la solicitud Ajax
+                url: "../Controladores/servidorNoticias.php",
+            })
+             .done(function(data, textStatus, jqXHR ) {
+                              
+             
+              if(data == "true"){
+
+                alert("Usuario Autenticado");
+                window.location ='../index.php';
+
+              }else{
+
+                alert("Usuario o clave incorrecto");
+              }
+                
+             })
+             .fail(function(jqXHR, textStatus, errorThrown ) {
+                 if (console && console.log ) {
+                     console.log( "La solicitud a fallado: " +  textStatus);
+                 }
+            });
+
+
+        }else{
+
+
+            alert("debe completar los campos!");
+        }
+
+       
+   
+    });  
+    
+    
      $('#btnGuardar').click(function(){
          //alert($('#recomendado').val())
          var checkbox = document.getElementById('chkrecomendado');        
