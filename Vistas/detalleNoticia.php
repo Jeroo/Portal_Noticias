@@ -105,21 +105,19 @@
           <a href="#" id="btnCancelarEditarNoticia" class="hide"><i class="material-icons">cancel</i></a>
         </div>
         <div class="row">
+          <div class="input-field col s4 m4 l4 xl4" style="margin-left:10px;margin-right:10px">
+            <input placeholder="fijar el tiempo de refresco de la noticia" id="tiempoRefresco" value="5000" name="tiempoRefresco" type="number" class="validate">
+            <label for="tiempoRefresco">Fijar el tiempo de refresco de la noticia y comentarios</label>
+          </div>
+        </div>
+        <div class="row">
           <div class="col s12 m12 l12 xl12 ajustarTextoNoticiaDetalle">
             <h5>Comentarios</h5>
           </div>
         </div> 
         <div class="row">
           <div class="col s12 m12 l12 xl12">
-              <ul class="collapsible">
-                <li>
-                  <div class="collapsible-header"><i class="material-icons">account_circle</i>Administrador</div>
-                  <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                </li>
-                <li>
-                  <div class="collapsible-header"><i class="material-icons">people</i>Anonimo</div>
-                  <div class="collapsible-body"><span>Lorem ipsum dolor sit amet.</span></div>
-                </li>               
+              <ul class="collapsible" id="collapsible">                            
               </ul>
             </div>                 
           </div>
@@ -129,7 +127,7 @@
           </div>
         </div> 
           <div class="row" style="margin-left:10px;margin-right:10px">
-          <form class="col s12">
+          <form class="col s12" id="frmComentarios">
             <div class="row">
               <div class="input-field col s12">
                 <?php
@@ -149,24 +147,13 @@
                
                 <label for="nombre">Nombre</label>
               </div>
-            </div>
-            <div class="row hide">
-              <div class="input-field col s12">
-                <input placeholder="tiempo" id="tiempo" name="tiempo" type="text" class="validate">
-                <label for="tiempo">Nombre</label>
-              </div>
-            </div>
+            </div>           
             <div class="row">
               <div class="input-field col s12">
                 <textarea placeholder="Comentario" class="materialize-textarea" class="validate" id="comentario" name="comentario"></textarea>
                 <label for="comentario">Comentario</label>
               </div>
-            </div>
-            <div class="row">
-              <div class="input-field col s3">
-              <a class="waves-effect waves-light btn blue" id="bntGuardarComentario"><i class="material-icons left">saved</i>Agregar</a>
-
-              </div>              
+            </div>             
             </div>      
           </form>        
           </div>
@@ -179,12 +166,77 @@
 <br>
 </div>
 
-<div class="row">
- <div class="col s12 m12 l12 xl12">
-    <?php
 
-         require_once './pie.php';
-      ?>
- </div>
-     
-</div>      
+  <?php
+
+require_once './pie.php';
+?>   
+
+
+<script>
+$(document).ready(function() {
+  
+  refrescarComentarios();
+ 
+ 
+ });
+
+setInterval(function(){ 
+
+  
+      
+  refrescarComentarios();  
+  
+  Materialize.toast("Comentarios Actualizados", 2000);
+  
+  }, $("#tiempoRefresco").val());
+
+
+  function refrescarComentarios(){
+
+      $.ajax({
+              // En data puedes utilizar un objeto JSON, un array o un query string
+              data: {"action" : "refrescaComentarios", "noticiaId": $("#noticiaId").val()},
+              //Cambiar a type: POST si necesario
+              type: "GET",
+              // Formato de datos que se espera en la respuesta
+              dataType: "json",
+              // URL a la que se enviará la solicitud Ajax
+              url: '../Controladores/servidorNoticias.php',
+          })
+          .done(function(data, textStatus, jqXHR ) {
+              var comentarios = ""; 
+            
+              console.log(data);
+
+              $.each(data, function(i, n){  
+
+                  var collapsibleHeader = '<div class="collapsible-header"><i class="material-icons">people</i>'+n.nombre+'</div>';
+                  
+                      
+                  if(n.nombre == 'Administrador')
+                  {
+                    collapsibleHeader = '<div class="collapsible-header"><i class="material-icons">account_circle</i>'+n.nombre+'</div>';
+                  }
+                  
+                  comentarios += '<li>'
+                      + collapsibleHeader
+                      +'<div class="collapsible-body"><span>'+n.texto+'</span></div>'
+                      +'</li>'; 
+              
+                });
+
+              $('#collapsible').html('');
+              
+              $('#collapsible').append(comentarios);
+              
+          })
+          .fail(function( jqXHR, textStatus, errorThrown ) {
+              if ( console && console.log ) {
+                  console.log( "La solicitud a fallado: " +  errorThrown);
+              }
+          });
+
+  }
+
+</script>

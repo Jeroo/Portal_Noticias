@@ -76,11 +76,17 @@ require("./Controladores/servidorNoticias.php");
     <a class="btn-floating btn-large waves-effect waves-light red tooltipped modal-trigger" href="#noticiaModal" data-position="bottom" data-tooltip="Presione para agregar una nueva noticia"><i class="material-icons">add</i></a>
       <h1 class="header center orange-text animated bounceInDown"> 
         <img src="./recursos/img/logonoticias.PNG" alt=""/></h1>
+        <div class="row">
+          <div class="input-field col s4 m4 l4 xl4" style="margin-left:10px;margin-right:10px">
+            <input placeholder="fijar el tiempo de refresco de la noticia" id="tiempoRefresco" value="5000" name="tiempoRefresco" type="number" class="validate">
+            <label for="tiempoRefresco">Fijar el tiempo de refresco de la noticia</label>
+          </div>
+        </div>
       <div class="row center">
         <h5 class="header col s12 light hide">Portal de NOTICIAS</h5>
       </div>
       <div class="row center">
-
+     
         <div class="contenedor animated bounceInLeft" id="contenedor">
          
         </div>
@@ -189,11 +195,22 @@ require("./Controladores/servidorNoticias.php");
       </div>
   </div>
 
+   <div class="preloader-wrapper big active mine" id="progress">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle">
+
+          </div>
+        </div>
+      </div>
+   </div>
+
   <!--  Scripts-->
   <script src="./recursos/js/jquery-2.1.1.min.js"></script>
   <script src="./recursos/js/materialize.js"></script>
   <script src="./recursos/js/init.js"></script>
   <script src="./recursos/js/appScript.js"></script>
+  
 
 
   </body>

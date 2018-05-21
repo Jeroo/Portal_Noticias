@@ -87,28 +87,29 @@ class BaseDatos {
      * Refresco de la noticia
      */
     public function refrescaNoticia():array {
-        $mensajes = [];
-		$sql="SELECT * FROM noticias";
+        $noticias = [];
+       // $sql="SELECT n.noticiaId,n.titulo,n.texto,count(c.noticiaId) as totalComentarios FROM noticias n LEFT join comentarios c on c.noticiaId = n.noticiaId";
+       $sql="SELECT * FROM noticias";
         $query = $this->conn->query($sql);
         while ($row = $query->fetch_assoc()) {
-            array_push($mensajes, $row);
+            array_push($noticias, $row);
 
         }
         
-        return $mensajes;
+        return $noticias;
     }
 
     /**
      * Refresco de los comentarios
      */
-    public function refrescaComentarios():array {
-        $mensajes = [];
-		$sql="SELECT * FROM comentarios ORDER BY tiempo DESC LIMIT 10";
+    public function refrescaComentarios(int $noticiaId):array {
+        $comentarios = [];
+		$sql="SELECT * FROM comentarios where noticiaId=$noticiaId ORDER BY tiempo DESC LIMIT 10";
         $query = $this->conn->query($sql);
         while ($row = $query->fetch_assoc()) {
-            array_push($mensajes, $row);
+            array_push($comentarios, $row);
         }
-        return $mensajes;
+        return $comentarios;
     }
 	
 	
@@ -117,9 +118,10 @@ class BaseDatos {
      */
     public function nuevoComentario(string $texto,string $nombre,int $noticiaId):bool {
 
-        $query = "INSERT INTO comentarios(nombre, texto, tiempo,noticiaId) VALUES(?, ?, ?, ?)";		
+        $query = "INSERT INTO comentarios(nombre, texto, tiempo, noticiaId) VALUES(?, ?, ?, ?)";		
         $stmt = $this->conn->prepare($query);
-		$stmt->bind_param('ssss', $nombre, $texto, date ("Y-m-d H:i:s", time()), $noticiaId);
+        $tiempo =  date ("Y-m-d H:i:s", time());
+		$stmt->bind_param('ssss', $nombre, $texto,$tiempo, $noticiaId);
         return $stmt->execute();
     }
 
@@ -249,7 +251,7 @@ if (isset($_GET['action']) && $_GET['action'] === "refrescaNoticia") {
 
 /* Refresco de los comentarios. */
 if (isset($_GET['action']) && $_GET['action'] === "refrescaComentarios") {	
-    print json_encode($db->refrescaComentarios());
+    print json_encode($db->refrescaComentarios($_GET['noticiaId']));
     exit();
 }
 

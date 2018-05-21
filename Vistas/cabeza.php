@@ -36,7 +36,7 @@
             }else {
                 
                 $login = $_SESSION['login_user'];
-                echo "<li><a href='#'>$login</a></li>";
+                echo "<li><a href='#' id='login'>$login</a></li>";
 
             }
        ?>
