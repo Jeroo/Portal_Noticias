@@ -36,13 +36,13 @@
             }else {
                 
                 $login = $_SESSION['login_user'];
-                echo "<li><a href='#'>$login</a></li>";
+                echo "<li><a href='#' id='login'>$login</a></li>";
 
             }
        ?>
     
         
-        <li><a href="../controladores/ControladorLogOut.php"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a href="../Controladores/servidorNoticias.php?action=logout"><i class="material-icons">exit_to_app</i></a></li>
 
       
         

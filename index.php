@@ -1,18 +1,10 @@
 <?php
 
-//require_once './Controladores/servidorNoticias.php';
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 require("./Controladores/servidorNoticias.php");
-/*if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}*/
 
-/*if (!isset($_SESSION['login_user'])) { //not logged in
-
-    //redirect to homepage
-    header("Location: ../index.php");
-    die();
-
-}*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,6 +24,8 @@ require("./Controladores/servidorNoticias.php");
   
 </head>
 <body>
+
+  
   <nav class="red lighten-1" role="navigation">
     <div class="nav-wrapper container">
       <a id="logo-container" href="../index.php" class="brand-logo">NOTICIAS</a>
@@ -51,7 +45,7 @@ require("./Controladores/servidorNoticias.php");
             }
        ?>
        
-        <li><a href="./controladores/ControladorLogOut.php"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a href="./Controladores/servidorNoticias.php?action=logout"><i class="material-icons">exit_to_app</i></a></li>
       
         
       </ul>
@@ -79,33 +73,20 @@ require("./Controladores/servidorNoticias.php");
 
   <div class="section no-pad-bot" id="index-banner">
     <div class="container">
+    <a class="btn-floating btn-large waves-effect waves-light red tooltipped modal-trigger" href="#noticiaModal" data-position="bottom" data-tooltip="Presione para agregar una nueva noticia"><i class="material-icons">add</i></a>
       <h1 class="header center orange-text animated bounceInDown"> 
         <img src="./recursos/img/logonoticias.PNG" alt=""/></h1>
+        <div class="row">
+          <div class="input-field col s4 m4 l4 xl4" style="margin-left:10px;margin-right:10px">
+            <input placeholder="fijar el tiempo de refresco de la noticia" id="tiempoRefresco" value="5000" name="tiempoRefresco" type="number" class="validate">
+            <label for="tiempoRefresco">Fijar el tiempo de refresco de la noticia</label>
+          </div>
+        </div>
       <div class="row center">
         <h5 class="header col s12 light hide">Portal de NOTICIAS</h5>
       </div>
       <div class="row center">
-
-        <!--form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
-            <label for="imagen">Imagen:</label>
-            <input type="file" name="imagen" id="imagen" />
-            <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
-        </form>
-
-        <img src="./Controladores/servidorNoticias.php?id=2" class="hide" />
-
-        <section class="noticias hide">
-                <section class="slider_noticias">
-
-                          <div class="banner">
-                            <img src="recursos/img/9.jpg" alt="" class="slide">
-                            <img src="recursos/img/10.jpg" alt="" class="slide">
-                            <img src="recursos/img/11.jpg" alt="" class="slide">
-                          </div>
-                          <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
-                          <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
-                </section>
-          </section-->
+     
         <div class="contenedor animated bounceInLeft" id="contenedor">
          
         </div>
@@ -137,6 +118,8 @@ require("./Controladores/servidorNoticias.php");
     
 
     </div>
+    
+
   </div>
 
  <footer class="page-footer red lighten-1 footer">
@@ -166,11 +149,82 @@ require("./Controladores/servidorNoticias.php");
     </div>
   </footer>
 
+    <!-- Modal Structure -->
+  <div id="noticiaModal" class="modal" data-backdrop="static" data-keyboard="false">
+      <div class="modal-content">
+        <h4>Agregar una nueva Noticia</h4>
+        <div class="row">
+          <form class="col s12">
+            <div class="row">
+              <div class="input-field col s12">
+                <input placeholder="Titulo noticia" id="titulo" name="titulo" type="text" class="validate">
+                <label for="titulo">Titulo</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <textarea placeholder="Texto noticia" class="materialize-textarea" class="validate" id="texto"></textarea>
+                <label for="texto">Texto Noticia</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="input-field col s3">
+              <a class="waves-effect waves-light btn blue" id="bntGuardarNoticia"><i class="material-icons left">saved</i>Agregar</a>
+
+              </div>
+              <div class="input-field col s6">
+              <a class="waves-effect waves-light btn red" id="bntLimpiarGuardarNoticia"><i class="material-icons left">delete</i>Limpiar</a>
+
+              </div>
+            </div>      
+          </form>
+          <div class="row hide" id="imagenesDiv" style="margin-top:100px;text-overflow: ellipsis;">
+              <div class="input-field col s12">
+                <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
+                    <h5>Cargar imagenes a la noticia agregada:</h5>
+                    <input type="hidden" name="action" id="action" value="cargarImagen" />
+                    <input type="file" name="imagen[]" id="imagen" multiple />
+                    <input type="submit" name="subir" id="btnSubirImg" value="Subir Imagen"/>
+                </form>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+      </div>
+  </div>
+
+   <div class="preloader-wrapper big active mine" id="progress">
+      <div class="spinner-layer spinner-blue">
+        <div class="circle-clipper left">
+          <div class="circle">
+
+          </div>
+        </div>
+      </div>
+   </div>
+
   <!--  Scripts-->
   <script src="./recursos/js/jquery-2.1.1.min.js"></script>
   <script src="./recursos/js/materialize.js"></script>
   <script src="./recursos/js/init.js"></script>
   <script src="./recursos/js/appScript.js"></script>
+
+
+  <script>
+    
+    setInterval(function(){ 
+          
+          refrescarNoticias(); 
+          
+          Materialize.toast("Noticias Actualizadas", 2000);
+      
+      }, $("#tiempoRefresco").val());
+      
+  </script>
+  
+
 
   </body>
 </html>
