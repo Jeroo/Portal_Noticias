@@ -261,17 +261,6 @@ function modificarTiempoRefresco(){
 
 }
 
-
-setInterval(function(){ 
-      
-    refrescarNoticias(); 
-    
-    Materialize.toast("Noticias Actualizadas", 2000);
-
- }, $("#tiempoRefresco").val());
-
-
-
  function refrescarNoticias(){
 
     $.ajax({

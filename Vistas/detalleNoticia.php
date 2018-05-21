@@ -13,51 +13,6 @@
 
 <div class="container">
 <div class="section">
-
-   
-
-
-   <?php
-              /*$datos =$db->obtenerImagen($_GET['id']);
-              $imagen =$datos[0]['imagen']; // Datos binarios de la imagen.
-              $sql = "SELECT l.id, f.formato,c.categoria,l.titulo,l.autor,l.editorial,l.aniopublicacion,l.precio,l.cantidadstock,l.librorecomendado  FROM libros l left join categorias c on c.id=l.idcategoria left join formatos f on f.id=l.idformato;";
-              $resultado = mysqli_query($mysqli,$sql);
-              
-              if($resultado)
-                {
-
-                   while($row = mysqli_fetch_array($resultado))
-                    {
-
-                       echo '<tr><td align="left">' .
-                                "<img src=\"../resources/img/$row[id].jpg\" alt=\"Portada del libro $row[titulo]\" height='80' width='80'></td><td align='left'>" .
-                                $row['id'] . '</td><td align="left">' .
-                                $row['titulo'].  '</td><td align="left">' .
-                                $row['autor'] . '</td><td align="left">'.
-                                $row['editorial'] . '</td><td align="left">'.
-                                $row['aniopublicacion'].  '</td><td align="left">'.
-                                $row['formato'].  '</td><td align="left">'.
-                                $row['categoria'].  '</td><td align="left">'.
-                                $row['precio'].  ' &euro;</td><td align="left">'.
-                                ($row['librorecomendado'] == 1 ? "Sí" : "No").  '</td><td align="left">'.
-                                $row['cantidadstock']. 
-                                "<td><a href=\"modificar.php?id=$row[id]\">Modificar</a> | <a href=\"../controladores/ControladorBorrar.php?id=$row[id]\" onClick=\"return confirm('Esta seguro que quiere borrar este libro?')\">Borrar</a></td>"
-                               ;
-
-
-                       echo '</tr>';
-                    }
-
-                  }
-                else
-                {
-                    echo "no se puedo ejecutar la consulta hay un error en la base de datos<br />";
-                    echo mysqli_error($mysqli);
-                }*/
-                
-                  //mysql_close($mysqli);
-             ?>                 
-  
   <!--   Noticia seleccionada   -->
   <div class="row">
     <div class="col s12 m12 l12 xl12">
