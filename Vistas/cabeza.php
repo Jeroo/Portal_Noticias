@@ -42,7 +42,7 @@
        ?>
     
         
-        <li><a href="../controladores/ControladorLogOut.php"><i class="material-icons">exit_to_app</i></a></li>
+        <li><a href="../Controladores/servidorNoticias.php?action=logout"><i class="material-icons">exit_to_app</i></a></li>
 
       
         

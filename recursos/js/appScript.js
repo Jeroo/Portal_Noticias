@@ -1,5 +1,7 @@
 $(document).ready(function() {
     $('.modal').modal();
+    $('.carousel').carousel();
+    $('.collapsible').collapsible();
     /**
      * 
      * Inicializar noticias
@@ -29,13 +31,13 @@ $(document).ready(function() {
             tarjeta += 
             '<div class="contenedor_tarjetas">'
             +'<a href="'+url+"?action=noticiaparticular&id="+n.noticiaId+'">'
-            +'      <h4 class="titulo">'+n.titulo+'</h4>'     
+            +'      <h4 class="titulo cortarTextoTitulos">'+n.titulo+'</h4>'     
             +'  <figure>   '      
              +'   <img src="data:image/png;charset=utf8;base64, '+ localStorage.getItem("encodingImagen"+n.noticiaId)+'" class="frontal" />'
-            +'      <figcaption class="trasera">'
-            +'        <h4 class="titulo">'+n.titulo+'</h4>'
+            +'      <figcaption class="trasera wordwrap">'
+            +'        <h4 class="titulo cortarTextoTitulos">'+n.titulo+'</h4>'
             +'        <hr>'
-            +'       <p class="b">'+n.texto+'</p>'
+            +'       <p class="cortarTextoNoticia">'+n.texto+'</p>'
             +'      </figcaption>'
             +'    </figure>'
             +'  </a>         '     
@@ -83,8 +85,7 @@ $(document).ready(function() {
      });
      
      
-     //bntGuardarNoticia
-
+     //Guardar la Noticia
      $('#bntGuardarNoticia').click(function(e){
       
         e.preventDefault();
@@ -104,8 +105,7 @@ $(document).ready(function() {
                 // URL a la que se enviará la solicitud Ajax
                 url: url,
             })
-             .done(function(data, textStatus, jqXHR ) {
-                              
+             .done(function(data, textStatus, jqXHR ) {                              
               
 
               if(data > 0){
@@ -113,6 +113,10 @@ $(document).ready(function() {
                 $('body').append("<input id='idNoticia' name='idNoticia' type='hidden' value='"+data+"'>")
 
                 alert("Noticia Agregada correctamente");
+                $('#texto').val('');
+                $('#titulo').val('');
+                $('#imagenesDiv').removeClass("hide");
+                
 
               }else{
 
@@ -136,6 +140,90 @@ $(document).ready(function() {
        
    
     });  
+
+    $('#bntLimpiarGuardarNoticia').click(function(e){
+
+        titulo = $('#titulo');
+        texto = $('#texto');
+
+        titulo.val('');
+        texto.val('');
+        $('#imagenesDiv').addClass("hide");
+        
+    });
+
+    $('#btnEditarNoticia').click(function(e){
+
+        titulo = $('#titulo');
+        texto = $('#texto');
+        $('#btnAgregarEditarNoticia').removeClass('hide');
+        $('#btnCancelarEditarNoticia').removeClass('hide');
+
+
+        titulo.attr("contenteditable","true");
+        texto.attr("contenteditable","true");
+        
+    });
+
+    $('#btnCancelarEditarNoticia').click(function(e){
+
+        titulo = $('#titulo');
+        texto = $('#texto');
+        $('#btnAgregarEditarNoticia').addClass('hide');
+        $('#btnCancelarEditarNoticia').addClass('hide');
+
+
+        titulo.attr("contenteditable","false");
+        texto.attr("contenteditable","false");
+        
+    });
+
+
+    $('#btnAgregarEditarNoticia').click(function(e){
+
+        var titulo = $('#titulo');
+        var texto = $('#texto');
+        var noticiaId = $('#noticiaId');
+
+        if(titulo.text() != "" && texto.text() != "" && noticiaId.val() != ""){
+
+            $.ajax({
+                // En data puedes utilizar un objeto JSON, un array o un query string
+                data: {"action" : "modificaNoticia", "titulo": titulo.text(), "texto": texto.text(),"noticiaId":noticiaId.val()},
+                //Cambiar a type: POST si necesario
+                type: "POST",
+                // Formato de datos que se espera en la respuesta
+               // dataType: "json",
+                // URL a la que se enviará la solicitud Ajax
+                url: "../Controladores/servidorNoticias.php",
+            })
+             .done(function(data, textStatus, jqXHR ) {
+                              
+             console.log(data)
+              if(data == "true"){
+
+                alert("Noticia modificada correctamente");               
+
+              }else{
+
+                alert("Hubo un Error no se pudo modificar la noticia");
+              }
+                
+             })
+             .fail(function(jqXHR, textStatus, errorThrown ) {
+                 if (console && console.log ) {
+                     console.log( "La solicitud a fallado: " +  textStatus);
+                 }
+            });
+
+
+        }else{
+
+
+            alert("Debe completar los campos!");
+        }
+        
+    });
 
     $('#btn_login').click(function(e){
       
@@ -187,23 +275,6 @@ $(document).ready(function() {
    
     });  
     
-    
-     $('#btnGuardar').click(function(){
-         //alert($('#recomendado').val())
-         var checkbox = document.getElementById('chkrecomendado');        
-        
-          if (checkbox.checked) {
-             
-             $('#recomendado').val(1);
-             
-           }else {
-            
-             $('#recomendado').val(0);
-          }
-
-         $('form#formAgregar').submit();
-    
-     });    
 
 
          
@@ -278,10 +349,8 @@ function obtenerImagenPorNoticiaId(noticiaId,url) {
           // localStorage.clear();
            // Store
            localStorage.setItem("encodingImagen"+noticiaId, data);
-           console.log(data)
-       
+         
       });
       
      return false;
 }
-

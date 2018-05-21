@@ -36,10 +36,20 @@ class BaseDatos {
     /**
      * Edición de la noticia
      */
-    public function modificaNoticia(string $noticia):bool {
-		$query = "update noticias SET texto=?";
+    public function modificaNoticia(string $noticia,string $titulo,int $noticiaId):bool {
+		$query = "update noticias SET texto='$noticia',titulo='$titulo' where noticiaId='$noticiaId'";
         $stmt = $this->conn->prepare($query);
-		$stmt->bind_param('s', $noticia);
+		//$stmt->bind_param('sss', $noticia,$titulo,$noticiaId);
+        return $stmt->execute();
+    }
+
+     /**
+     * Borrar la noticia
+     */
+    public function eliminarNoticia(int $noticiaId):bool {
+		$query = "delete from noticias where noticiaId=?";
+        $stmt = $this->conn->prepare($query);
+		$stmt->bind_param('s', $noticiaId);
         return $stmt->execute();
     }
 
@@ -54,6 +64,24 @@ class BaseDatos {
         $LAST_ID = $this->conn->insert_id; 
         return $LAST_ID;
     }
+
+       /**
+     * obtener una noticia
+     */
+    public function obtenerNoticias(int $noticiaId):array {     
+        
+        $noticias = [];
+        $sql="SELECT * FROM noticias WHERE noticiaId=$noticiaId";
+        $query = $this->conn->query($sql);
+ 
+         while ($row = $query->fetch_assoc()) {
+ 
+             array_push($noticias, $row);     
+         }
+ 
+       return $noticias;
+ 
+      }
 	
     /**
      * Refresco de la noticia
@@ -87,13 +115,11 @@ class BaseDatos {
     /**
      * Nuevo Comentario
      */
-    public function nuevoComentario(string $json):bool {
-		$comentario = json_decode($json,true);
-        $nombre=$comentario['nombre'];
-        $texto=$comentario['texto'];
-        $query = "INSERT INTO comentarios(nombre, texto, tiempo) VALUES(?, ?, ?)";		
+    public function nuevoComentario(string $texto,string $nombre,int $noticiaId):bool {
+
+        $query = "INSERT INTO comentarios(nombre, texto, tiempo,noticiaId) VALUES(?, ?, ?, ?)";		
         $stmt = $this->conn->prepare($query);
-		$stmt->bind_param('sss', $nombre, $texto, date ("Y-m-d H:i:s", time()));
+		$stmt->bind_param('ssss', $nombre, $texto, date ("Y-m-d H:i:s", time()), $noticiaId);
         return $stmt->execute();
     }
 
@@ -187,28 +213,25 @@ if (isset($_GET['action']) && $_GET['action'] === "logout") {
     exit();
 }
 
-
-
-
-
-
-
 /* Modificación de la noticia. */
 if (isset($_POST['action']) && $_POST['action'] === "modificaNoticia") {
-	if($db->autenticar($_POST['usuario'], $_POST['password']) == "true"){
-		if (!$db->modificaNoticia($_POST['noticia'])) {
-			http_response_code(400);
-			die("{ 'status': 'error' }");
+
+	
+		if (!$db->modificaNoticia($_POST['texto'],$_POST['titulo'],$_POST['noticiaId'])) {
+            
+            http_response_code(400);
+            die("{ 'status': 'error' }");
+            
 		} else {
 			print("true");
-		}
-	}
+        }
+    
 }
 
 
 /* Nuevo Comentario. */
 if (isset($_POST['action']) && $_POST['action'] === "nuevoComentario") {
-	if (!$db->nuevoComentario($_POST['comentario'])) {
+	if (!$db->nuevoComentario($_POST['texto'],$_POST['nombre'],$_POST['noticiaId'])) {
 		http_response_code(400);
 		die("{ 'status': 'error' }");
 	} else {
@@ -244,69 +267,61 @@ if (isset($_GET['action']) && $_GET['action'] === "obtenerimagen") {
 
 /* vamos a una noticia en particular*/
 if (isset($_GET['action']) && $_GET['action'] === "noticiaparticular") {	
-    echo "yendo a la noticia... ID: ".$_GET['id'];
-    //exit();
+   // echo "yendo a la noticia... ID: ".$_GET['id'];
+
+    header("location: ../Vistas/detalleNoticia.php?id=".$_GET['id']);
+
+    exit();
 }
 
-
-/*if (1 > 0)
-{
-    $datos = $db->obtenerImagen(3);
-    $imagen = $datos[0]['imagen']; // Datos binarios de la imagen.
-    $tipo = $datos[0]['tipo_imagen'];  // Mime Type de la imagen.
-    // Mandamos las cabeceras al navegador indicando el tipo de datos que vamos a enviar.
-    header("Content-type: $tipo");
-    // A continuación enviamos el contenido binario de la imagen.
-    echo $imagen;
-}*/
 
 /* Refresco de los comentarios. */
 
 if (isset($_POST['action']) && $_POST['action'] === "cargarImagen") {
-	// Comprobamos si ha ocurrido un error.
-if (!isset($_FILES["imagen"]) || $_FILES["imagen"]["error"] > 0)
-{
-    echo "Ha ocurrido un error.";
-}
-else
-{
+
     // Verificamos si el tipo de archivo es un tipo de imagen permitido.
     // y que el tamaño del archivo no exceda los 16MB
     $permitidos = array("image/jpg", "image/jpeg", "image/gif", "image/png");
     $limite_kb = 16384;
+    //$idNoticia = 2;
+    $idNoticia = $_SESSION['idNoticia'];
 
-    if (in_array($_FILES['imagen']['type'], $permitidos) && $_FILES['imagen']['size'] <= $limite_kb * 1024)
+    //foreach($_FILES["imagen"]["tmp_name"] as $key=>$tmp_name)
+    for ($i = 0; $i < count($_FILES['imagen']['name']); $i++) 
     {
+        $file_name=$_FILES["imagen"]["name"][$i];
+        $file_tmp=$_FILES["imagen"]["tmp_name"][$i];
+        //$ext=pathinfo($file_name,PATHINFO_EXTENSION);
 
-        // Archivo temporal
-        $imagen_temporal = $_FILES['imagen']['tmp_name'];
+        if (in_array($_FILES['imagen']['type'][$i], $permitidos) && $_FILES['imagen']['size'][$i] <= $limite_kb * 1024)
+        {            
 
-        // Tipo de archivo
-        $tipo = $_FILES['imagen']['type'];
+            // Archivo temporal
+            $imagen_temporal = $_FILES['imagen']['tmp_name'][$i];
 
-        // Leemos el contenido del archivo temporal en binario.
-        $fp = fopen($imagen_temporal, 'r+b');
-        $data = fread($fp, filesize($imagen_temporal));
-        fclose($fp);
+            // Tipo de archivo
+            $tipo = $_FILES['imagen']['type'][$i];
 
-        if ($db->agregarImagen($data,$tipo,2))
-        {
-            print "El archivo ha sido copiado exitosamente.";
+            // Leemos el contenido del archivo temporal en binario.
+            $fp = fopen($imagen_temporal, 'r+b');
+            $data = fread($fp, filesize($imagen_temporal));
+            fclose($fp);
+
+            if ($db->agregarImagen($data,$tipo,$idNoticia))
+            {
+               print "El archivo ha sido copiado exitosamente.";
+            }
+            else
+            {
+               print "Ocurrió algun error al copiar el archivo.";
+            }
         }
         else
         {
-            print "Ocurrió algun error al copiar el archivo.";
+            print "Formato de archivo no permitido o excede el tamaño límite de $limite_kb Kbytes.";
         }
     }
-    else
-    {
-        print "Formato de archivo no permitido o excede el tamaño límite de $limite_kb Kbytes.";
-    }
-  }
+  //}
 }
-
-
-
-
 
 ?>

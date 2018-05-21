@@ -81,22 +81,6 @@ require("./Controladores/servidorNoticias.php");
       </div>
       <div class="row center">
 
-  
-
-        <img src="./Controladores/servidorNoticias.php?id=2" class="hide" />
-
-        <section class="noticias hide">
-                <section class="slider_noticias">
-
-                          <div class="banner">
-                            <img src="recursos/img/9.jpg" alt="" class="slide">
-                            <img src="recursos/img/10.jpg" alt="" class="slide">
-                            <img src="recursos/img/11.jpg" alt="" class="slide">
-                          </div>
-                          <a href="#" id="banner-prev" class="flecha-banner anterior"><span class="fa fa-chevron-left"></span></a>
-                          <a href="#" id="banner-next" class="flecha-banner siguiente"><span class="fa fa-chevron-right"></span></a>
-                </section>
-          </section>
         <div class="contenedor animated bounceInLeft" id="contenedor">
          
         </div>
@@ -160,7 +144,7 @@ require("./Controladores/servidorNoticias.php");
   </footer>
 
     <!-- Modal Structure -->
-  <div id="noticiaModal" class="modal">
+  <div id="noticiaModal" class="modal" data-backdrop="static" data-keyboard="false">
       <div class="modal-content">
         <h4>Agregar una nueva Noticia</h4>
         <div class="row">
@@ -188,13 +172,13 @@ require("./Controladores/servidorNoticias.php");
               </div>
             </div>      
           </form>
-          <div class="row" style="margin-top:100px">
+          <div class="row hide" id="imagenesDiv" style="margin-top:100px;text-overflow: ellipsis;">
               <div class="input-field col s12">
                 <form action="./Controladores/servidorNoticias.php" method="POST" enctype="multipart/form-data">
                     <h5>Cargar imagenes a la noticia agregada:</h5>
                     <input type="hidden" name="action" id="action" value="cargarImagen" />
-                    <input type="file" name="imagen" id="imagen" />
-                    <input type="submit" name="subir" id="subir" value="Subir Imagen"/>
+                    <input type="file" name="imagen[]" id="imagen" multiple />
+                    <input type="submit" name="subir" id="btnSubirImg" value="Subir Imagen"/>
                 </form>
               </div>
             </div>
