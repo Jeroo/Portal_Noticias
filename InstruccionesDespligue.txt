@@ -1,0 +1,19 @@
+Se proporciona un fichero comprimido con la base de datos en gzip el cual contiene las tablas y los datos a importar en mysql admin una vez creada la base de datos db_ejemplo.
+
+Estructura de los archivos:
+NOTICIAS
+      Controladores
+            servidorNoticia.php
+      recursos
+            css
+            fonts
+            img
+            js
+      Vistas
+            cabeza.php
+            detalleNoticia.php
+            login.php
+            pie.php
+      index.php
+
+Se debe publicar todo el proyecto desde la carpeta Raiz que es NOTICIAS.
