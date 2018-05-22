@@ -34,7 +34,7 @@
               ?> 
             </div>
           </div>
-          <div class="card-content">
+          <div class="card-content" id="divCard-content">
             
             <?php
                   $datos = $db->obtenerNoticias($_GET['id']);
@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col s12 m12 l12 xl12 ajustarTextoNoticiaDetalle">
+          <div class="col s12 m12 l12 xl12 ajustarTextoNoticiaParticular">
             <h5>Comentarios</h5>
           </div>
         </div> 
@@ -77,7 +77,7 @@
             </div>                 
           </div>
           <div class="row">
-          <div class="col s12 m12 l12 xl12 ajustarTextoNoticiaDetalle">
+          <div class="col s12 m12 l12 xl12 ajustarTextoNoticiaParticular">
             <h5>Agregar Comentarios</h5>
           </div>
         </div> 
@@ -146,6 +146,20 @@ setInterval(function(){
   
   }, $("#tiempoRefresco").val());
 
+setInterval(function(){ 
+
+  
+  refrescarDetalleNoticia();
+
+
+
+Materialize.toast("Noticia Actualizada", 2000);
+
+}, $("#tiempoRefresco").val());
+
+  
+
+
 
   function refrescarComentarios(){
 
@@ -161,8 +175,6 @@ setInterval(function(){
           })
           .done(function(data, textStatus, jqXHR ) {
               var comentarios = ""; 
-            
-              console.log(data);
 
               $.each(data, function(i, n){  
 
@@ -193,5 +205,39 @@ setInterval(function(){
           });
 
   }
+
+
+   function refrescarDetalleNoticia(){
+       $.ajax({
+        // En data puedes utilizar un objeto JSON, un array o un query string
+        data: {"action" : "refrescarNoticiaParticular", "noticiaId": $("#noticiaId").val()},
+        //Cambiar a type: POST si necesario
+        type: "GET",
+        // Formato de datos que se espera en la respuesta
+        dataType: "json",
+        // URL a la que se enviará la solicitud Ajax
+        url: '../Controladores/servidorNoticias.php',
+        })
+        .done(function(data, textStatus, jqXHR ) {
+            var noticiaParticular = ""; 
+          
+
+            noticiaParticular = '<span class="card-title activator ajustarTextoNoticiaDetalle grey-text text-darken-4" contenteditable="false" name="titulo" id="titulo">'+data.titulo+'</span>'
+                 + '<p contenteditable="false" name="texto" id="texto" class="ajustarTextoNoticiaDetalle">'+data.texto+'</p>'
+                 + '<input type="hidden" id="noticiaId" name="noticiaId" value="'+data.noticiaId+'"/>';
+
+            $('#divCard-content').html('');
+            
+            $('#divCard-content').append(noticiaParticular);
+            
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+            if ( console && console.log ) {
+                console.log( "La solicitud a fallado: " +  errorThrown);
+            }
+        });
+
+}
+
 
 </script>

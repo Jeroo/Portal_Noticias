@@ -88,8 +88,7 @@ class BaseDatos {
      */
     public function refrescaNoticia():array {
         $noticias = [];
-       // $sql="SELECT n.noticiaId,n.titulo,n.texto,count(c.noticiaId) as totalComentarios FROM noticias n LEFT join comentarios c on c.noticiaId = n.noticiaId";
-       $sql="SELECT * FROM noticias";
+        $sql="SELECT * FROM noticias";
         $query = $this->conn->query($sql);
         while ($row = $query->fetch_assoc()) {
             array_push($noticias, $row);
@@ -97,6 +96,21 @@ class BaseDatos {
         }
         
         return $noticias;
+    }
+
+       /**
+     * Refresco de la noticia Particular
+     */
+    public function refrescaNoticiaParticular(int $noticiaId):array {
+        $noticia = [];
+        $sql="SELECT * FROM noticias where  noticiaId=$noticiaId";
+        $query = $this->conn->query($sql);
+        while ($row = $query->fetch_assoc()) {
+            array_push($noticia, $row);
+
+        }
+        
+        return $noticia;
     }
 
     /**
@@ -127,9 +141,7 @@ class BaseDatos {
 
      /**
      * Agregar imagenes
-     */
-
-    //https://manuais.iessanclemente.net/index.php/Almacenamiento_de_im%C3%A1genes_en_bases_de_datos_con_PHP     
+     */  
     public function agregarImagen(string $data,string $tipo,int $noticiaId):bool {     
        // Insertamos en la base de datos.
         $query = "INSERT INTO noticiasimagenes(imagen, tipo_imagen, noticiaId) VALUES(?, ?, ?)";		
@@ -255,6 +267,8 @@ if (isset($_GET['action']) && $_GET['action'] === "refrescaComentarios") {
     exit();
 }
 
+
+
 /* Obtener imagen. */
 if (isset($_GET['action']) && $_GET['action'] === "obtenerimagen") {
     $datos =$db->obtenerImagen($_GET['noticiaId']);
@@ -273,6 +287,12 @@ if (isset($_GET['action']) && $_GET['action'] === "noticiaparticular") {
 
     header("location: ../Vistas/detalleNoticia.php?id=".$_GET['id']);
 
+    exit();
+}
+
+/* Refresco de los noticiaParticular. */
+if (isset($_GET['action']) && $_GET['action'] === "refrescarNoticiaParticular") {	
+    print json_encode($db->refrescaNoticiaParticular($_GET['noticiaId'])[0]);
     exit();
 }
 

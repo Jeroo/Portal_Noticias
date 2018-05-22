@@ -215,12 +215,20 @@ figure .trasera p {
 
 .ajustarTextoNoticiaDetalle {
   
-  display: flex;
-  box-sizing: border-box;
+  word-wrap: break-word;
   overflow: hidden;
   width: auto;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: left
+}
+
+.ajustarTextoNoticiaParticular {
+  
+  display:  flex;
+  overflow: hidden;
+  width: auto;
+  flex-wrap: wrap;
+  justify-content: center
 }
 
 .btn-floating {
