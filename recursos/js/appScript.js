@@ -284,7 +284,7 @@ function modificarTiempoRefresco(){
             tarjeta += 
             '<div class="contenedor_tarjetas">'
             +'<a href="'+url+"?action=noticiaparticular&id="+n.noticiaId+'">'
-            +'      <h4 class="titulo cortarTextoTitulos">'+n.titulo+'</h4>'     
+           // +'      <h4 class="titulo cortarTextoTitulos">'+n.titulo+'</h4>'     
             +'  <figure>   '      
              +'   <img src="data:image/png;charset=utf8;base64, '+ localStorage.getItem("encodingImagen"+n.noticiaId)+'" class="frontal" />'
             +'      <figcaption class="trasera wordwrap">'

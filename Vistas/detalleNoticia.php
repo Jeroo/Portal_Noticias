@@ -28,7 +28,7 @@
 
                   foreach ($datos as $imagen) {
 
-                      echo '<a class="carousel-item" href="#"><img class="materialboxed" width="650" src="data:image/png;charset=utf8;base64,'.base64_encode($imagen['imagen']).'"></a>';
+                      echo '<a class="carousel-item" href="#"><img class="materialboxed" width="2000" src="data:image/png;charset=utf8;base64,'.base64_encode($imagen['imagen']).'"></a>';
         
                     }
               ?> 

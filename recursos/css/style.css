@@ -134,7 +134,7 @@ figure .trasera p {
   font-family: 'Open Sans', sans-serif;
   line-height: 22px;
   justify-content: left;
-  height: 500px;
+  height: 300px;
 
 }
 
@@ -210,7 +210,7 @@ figure .trasera p {
   text-overflow: ellipsis; 
   width: 250px;
   flex-wrap: wrap;
-  max-height: 180px;
+  max-height: 100px;
 }
 
 .ajustarTextoNoticiaDetalle {
